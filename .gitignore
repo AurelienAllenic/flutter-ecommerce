@@ -13,6 +13,10 @@
 **/ios/Flutter/.last_build_id
 pubspec.lock
 
+# Ne jamais committer les fichiers secrets Firebase
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+
 # ========================================
 # iOS
 # ========================================
