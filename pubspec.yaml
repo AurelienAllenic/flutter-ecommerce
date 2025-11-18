@@ -1,5 +1,5 @@
 name: e_commerce
-description: "A new Flutter project."
+description: "A Flutter project with Firebase authentication and product listing."
 publish_to: "none" # Empêche la publication accidentelle sur pub.dev
 
 version: 1.0.0+1
@@ -24,14 +24,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # Exemple pour ajouter des assets si nécessaire
-  # assets:
-  #   - assets/images/
-
-  # Exemple pour ajouter des polices personnalisées
-  # fonts:
-  #   - family: Roboto
-  #     fonts:
-  #       - asset: fonts/Roboto-Regular.ttf
-  #       - asset: fonts/Roboto-Bold.ttf
-  #         weight: 700
+  # 🔹 Assets pour le projet (JSON ou images)
+  assets:
+    - assets/products.json
+    # - assets/images/   # Décommente si tu ajoutes des images pour tes produits

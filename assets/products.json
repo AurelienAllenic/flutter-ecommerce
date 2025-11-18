@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "Chaussures de sport",
+    "price": 59.99,
+    "image": "https://res.cloudinary.com/dwpbyyhoq/image/upload/f_webp,q_auto/shoe_hucfpe.webp"
+  },
+  {
+    "id": 2,
+    "name": "T-shirt",
+    "price": 19.99,
+    "image": "https://res.cloudinary.com/dwpbyyhoq/image/upload/f_webp,q_auto/t-shirt_krqjbi.webp"
+  },
+  {
+    "id": 3,
+    "name": "Sac à dos",
+    "price": 39.99,
+    "image": "https://res.cloudinary.com/dwpbyyhoq/image/upload/f_webp,q_auto/bag_g8uc6n.webp"
+  }
+]
