@@ -1,0 +1,75 @@
+# ========================================
+# Flutter/Dart
+# ========================================
+
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+.flutter-plugins
+.flutter-plugins-dependencies
+/build/
+**/doc/api/
+**/ios/Flutter/.last_build_id
+pubspec.lock
+
+# ========================================
+# iOS
+# ========================================
+
+ios/Pods/
+ios/Podfile.lock
+ios/Runner.xcworkspace/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/App.framework
+ios/Flutter/Flutter.xcframework
+
+# ========================================
+# Android
+# ========================================
+
+android/.gradle/
+android/app/build/
+android/local.properties
+
+# ========================================
+# IDEs
+# ========================================
+
+# IntelliJ/Android Studio
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# VS Code
+.vscode/
+
+# ========================================
+# Miscellaneous
+# ========================================
+
+*.class
+*.log
+*.pyc
+*.swp
+*.lock
+.DS_Store
+.build/
+.history
+.swiftpm/
+migrate_working_dir/
+
+# ========================================
+# Coverage
+# ========================================
+
+/coverage/
+
+# ========================================
+# Symbolication & Obfuscation (optional)
+# ========================================
+
+app.*.symbols
+app.*.map.json
