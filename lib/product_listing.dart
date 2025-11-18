@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'product.dart'; // ton modèle Product
+import 'product.dart';
+import 'product_detail.dart'; // Page de détail du produit
 
 class ProductListingPage extends StatefulWidget {
   const ProductListingPage({super.key});
@@ -20,11 +21,20 @@ class _ProductListingPageState extends State<ProductListingPage> {
   }
 
   Future<void> loadProducts() async {
-    final String response = await rootBundle.loadString('assets/products.json');
-    final List<dynamic> data = json.decode(response);
-    setState(() {
-      products = data.map((json) => Product.fromJson(json)).toList();
-    });
+    try {
+      final String response = await rootBundle.loadString(
+        'assets/products.json',
+      );
+      final List<dynamic> data = json.decode(response);
+      setState(() {
+        products = data.map((json) => Product.fromJson(json)).toList();
+      });
+    } catch (e) {
+      // Gestion simple d'erreur
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erreur lors du chargement des produits : $e')),
+      );
+    }
   }
 
   @override
@@ -48,6 +58,15 @@ class _ProductListingPageState extends State<ProductListingPage> {
                     ),
                     title: Text(product.name),
                     subtitle: Text('\$${product.price.toStringAsFixed(2)}'),
+                    onTap: () {
+                      // 🔹 Navigation vers la page de détail
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => ProductDetailPage(product: product),
+                        ),
+                      );
+                    },
                   ),
                 );
               },
