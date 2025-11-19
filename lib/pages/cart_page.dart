@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../models/cart.dart';
 import '../models/cart_item.dart';
+import '../models/order.dart'; // Add this import
+import '../services/order_service.dart'; // Add this import (adjust path if OrderService is elsewhere)
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -12,13 +14,13 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   final Cart cart = Cart.instance;
 
-  void _removeItem(CartItem item) async {
+  Future<void> _removeItem(CartItem item) async {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text("Confirmation"),
         content: Text(
-          "Voulez-vous vraiment supprimer '${item.product.name}' du panier ?",
+          "Voulez-vous vraiment supprimer '${item.product.name}' ?",
         ),
         actions: [
           TextButton(
@@ -45,6 +47,44 @@ class _CartPageState extends State<CartPage> {
     setState(() {
       item.quantity = quantity;
     });
+  }
+
+  // 🔥 PAIEMENT MOCKÉ : aucun Stripe, aucune API
+  Future<void> _checkout() async {
+    if (cart.items.isEmpty) return;
+
+    await Future.delayed(const Duration(seconds: 1)); // fake processing
+
+    // Créer une commande mockée à partir du panier
+    final order = Order(
+      items: List.from(
+        cart.items,
+      ), // Copie des items pour éviter mutations futures
+      total: cart.totalPrice,
+      date: DateTime.now(),
+    );
+
+    // Ajouter à OrderService (simule enregistrement)
+    OrderService.instance.addOrder(order);
+
+    // On simule un paiement réussi
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text("Paiement réussi 🎉"),
+        content: const Text("Votre commande a bien été enregistrée."),
+        actions: [
+          TextButton(
+            onPressed: () {
+              cart.clear(); // vider le panier
+              Navigator.of(context).pop();
+              setState(() {});
+            },
+            child: const Text("OK"),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -111,16 +151,7 @@ class _CartPageState extends State<CartPage> {
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("Commande effectuée !"),
-                            ),
-                          );
-                          setState(() {
-                            cart.clear();
-                          });
-                        },
+                        onPressed: _checkout,
                         child: const Text('Commander'),
                       ),
                     ],

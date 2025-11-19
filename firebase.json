@@ -1,0 +1,38 @@
+{
+  "functions": {
+    "source": "functions",
+    "runtime": "nodejs22",
+    "codebase": "default",
+    "disallowLegacyRuntimeConfig": true,
+    "ignore": [
+      "node_modules",
+      ".git",
+      "firebase-debug.log",
+      "firebase-debug.*.log",
+      "*.local"
+    ]
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "flutterecommerce-2ceaa",
+          "appId": "1:535603853746:android:fcdb9440c99c4c80228cab",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "flutterecommerce-2ceaa",
+          "configurations": {
+            "android": "1:535603853746:android:fcdb9440c99c4c80228cab",
+            "ios": "1:535603853746:ios:033e031c411ae553228cab",
+            "macos": "1:535603853746:ios:033e031c411ae553228cab",
+            "web": "1:535603853746:web:b7a5c1709b18481e228cab",
+            "windows": "1:535603853746:web:5d5faf5683330017228cab"
+          }
+        }
+      }
+    }
+  }
+}
