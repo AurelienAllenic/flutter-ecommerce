@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'product.dart';
+import '../models/product.dart';
 import 'product_detail.dart'; // Page de détail du produit
 
 class ProductListingPage extends StatefulWidget {
