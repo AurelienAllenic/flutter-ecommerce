@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'pages/login.dart';
-import 'firebase_options.dart'; // ⚡ <- à ajouter
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // ⚡ Initialisation de Firebase avec la configuration par plateforme
+  // PLUS DE DOTENV, ON S'EN BAT LES COUILLES
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(const MyApp());

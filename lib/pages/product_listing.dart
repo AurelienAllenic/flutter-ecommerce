@@ -1,11 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../models/product.dart';
 import 'product_detail.dart';
 import '../widgets/cart_icon.dart';
-import '../widgets/access_order_button.dart'; // Ajoutez cet import (ajustez le chemin)
+import '../widgets/access_order_button.dart'; // ← Change ça selon le VRAI nom de ton fichier
 
 class ProductListingPage extends StatefulWidget {
   const ProductListingPage({super.key});
@@ -32,34 +31,19 @@ class _ProductListingPageState extends State<ProductListingPage> {
 
       setState(() {
         products = data.map((jsonItem) {
-          String stripePriceId;
-
-          switch (jsonItem['name']) {
-            case 'Chaussures':
-              stripePriceId = dotenv.env['STRIPE_PRICE_ID_SHOES'] ?? '';
-              break;
-            case 'T-shirt':
-              stripePriceId = dotenv.env['STRIPE_PRICE_ID_TSHIRT'] ?? '';
-              break;
-            case 'Sac à dos':
-              stripePriceId = dotenv.env['STRIPE_PRICE_ID_BAG'] ?? '';
-              break;
-            default:
-              stripePriceId = '';
-          }
-
+          // ON MET stripePriceId = '' POUR TOUT → PLUS BESOIN DE .env
           return Product(
             id: jsonItem['id'] ?? 0,
             name: jsonItem['name'] ?? 'Produit sans nom',
             price: (jsonItem['price'] as num?)?.toDouble() ?? 0.0,
             image: jsonItem['image'] ?? 'https://via.placeholder.com/150',
-            stripePriceId: stripePriceId,
+            stripePriceId: '', // ← VIDE, ON S'EN FOUT
           );
         }).toList();
       });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erreur lors du chargement des produits : $e')),
+        SnackBar(content: Text('Erreur chargement produits : $e')),
       );
     }
   }
@@ -71,7 +55,7 @@ class _ProductListingPageState extends State<ProductListingPage> {
         title: const Text('Liste des produits'),
         actions: const [
           CartIcon(),
-          OrdersIcon(), // Votre widget ajouté juste après le CartIcon
+          OrdersIcon(), // ← Si ça plante encore, regarde l’étape 6
         ],
       ),
       body: products.isEmpty
