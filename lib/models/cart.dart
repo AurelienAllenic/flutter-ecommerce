@@ -1,18 +1,29 @@
 import 'cart_item.dart';
 
 class Cart {
-  final List<CartItem> items;
+  Cart._privateConstructor();
 
-  Cart({required this.items});
+  static final Cart instance = Cart._privateConstructor();
 
-  double get totalPrice {
-    return items.fold(
-      0,
-      (sum, item) => sum + (item.product.price * item.quantity),
-    );
+  final List<CartItem> items = [];
+
+  void addItem(CartItem item) {
+    final index = items.indexWhere((i) => i.product.id == item.product.id);
+    if (index >= 0) {
+      items[index].quantity += item.quantity;
+    } else {
+      items.add(item);
+    }
   }
 
-  int get totalItems {
-    return items.fold(0, (sum, item) => sum + item.quantity);
+  void removeItem(CartItem item) {
+    items.remove(item);
   }
+
+  void clear() {
+    items.clear();
+  }
+
+  double get totalPrice =>
+      items.fold(0, (sum, item) => sum + item.product.price * item.quantity);
 }
