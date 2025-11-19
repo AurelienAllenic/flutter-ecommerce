@@ -15,7 +15,9 @@ class ProductListingPage extends StatefulWidget {
 }
 
 class _ProductListingPageState extends State<ProductListingPage> {
-  List<Product> products = [];
+  List<Product> allProducts = [];
+  List<Product> displayedProducts = [];
+  String searchQuery = '';
 
   @override
   void initState() {
@@ -30,22 +32,38 @@ class _ProductListingPageState extends State<ProductListingPage> {
       );
       final List<dynamic> data = json.decode(response);
 
+      final loadedProducts = data.map((jsonItem) {
+        return Product(
+          id: jsonItem['id'] ?? 0,
+          name: jsonItem['name'] ?? 'Produit sans nom',
+          price: (jsonItem['price'] as num?)?.toDouble() ?? 0.0,
+          image: jsonItem['image'] ?? 'https://via.placeholder.com/150',
+          stripePriceId: '',
+        );
+      }).toList();
+
       setState(() {
-        products = data.map((jsonItem) {
-          return Product(
-            id: jsonItem['id'] ?? 0,
-            name: jsonItem['name'] ?? 'Produit sans nom',
-            price: (jsonItem['price'] as num?)?.toDouble() ?? 0.0,
-            image: jsonItem['image'] ?? 'https://via.placeholder.com/150',
-            stripePriceId: '',
-          );
-        }).toList();
+        allProducts = loadedProducts;
+        displayedProducts = loadedProducts;
       });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Erreur chargement produits : $e')),
       );
     }
+  }
+
+  void updateSearch(String query) {
+    final filtered = allProducts
+        .where(
+          (product) => product.name.toLowerCase().contains(query.toLowerCase()),
+        )
+        .toList();
+
+    setState(() {
+      searchQuery = query;
+      displayedProducts = filtered;
+    });
   }
 
   @override
@@ -55,35 +73,55 @@ class _ProductListingPageState extends State<ProductListingPage> {
         title: const Text('Liste des produits'),
         actions: const [CartIcon(), OrdersIcon(), LogoutIcon()],
       ),
-      body: products.isEmpty
-          ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: products.length,
-              itemBuilder: (context, index) {
-                final product = products[index];
-                return Card(
-                  margin: const EdgeInsets.all(8),
-                  child: ListTile(
-                    leading: Image.network(
-                      product.image,
-                      width: 50,
-                      height: 50,
-                      fit: BoxFit.cover,
-                    ),
-                    title: Text(product.name),
-                    subtitle: Text('\$${product.price.toStringAsFixed(2)}'),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => ProductDetailPage(product: product),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              decoration: const InputDecoration(
+                hintText: 'Rechercher un produit...',
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(),
+              ),
+              onChanged: updateSearch,
+            ),
+          ),
+          Expanded(
+            child: displayedProducts.isEmpty
+                ? const Center(child: Text("Aucun produit trouvé"))
+                : ListView.builder(
+                    itemCount: displayedProducts.length,
+                    itemBuilder: (context, index) {
+                      final product = displayedProducts[index];
+                      return Card(
+                        margin: const EdgeInsets.all(8),
+                        child: ListTile(
+                          leading: Image.network(
+                            product.image,
+                            width: 50,
+                            height: 50,
+                            fit: BoxFit.cover,
+                          ),
+                          title: Text(product.name),
+                          subtitle: Text(
+                            '\$${product.price.toStringAsFixed(2)}',
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    ProductDetailPage(product: product),
+                              ),
+                            ).then((_) => setState(() {}));
+                          },
                         ),
-                      ).then((_) => setState(() {}));
+                      );
                     },
                   ),
-                );
-              },
-            ),
+          ),
+        ],
+      ),
     );
   }
 }
