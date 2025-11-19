@@ -2,7 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import '../models/product.dart';
-import 'product_detail.dart'; // Page de détail du produit
+import 'product_detail.dart';
+import '../widgets/cart_icon.dart';
 
 class ProductListingPage extends StatefulWidget {
   const ProductListingPage({super.key});
@@ -30,7 +31,6 @@ class _ProductListingPageState extends State<ProductListingPage> {
         products = data.map((json) => Product.fromJson(json)).toList();
       });
     } catch (e) {
-      // Gestion simple d'erreur
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Erreur lors du chargement des produits : $e')),
       );
@@ -40,7 +40,10 @@ class _ProductListingPageState extends State<ProductListingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Liste des produits')),
+      appBar: AppBar(
+        title: const Text('Liste des produits'),
+        actions: const [CartIcon()],
+      ),
       body: products.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
@@ -59,13 +62,12 @@ class _ProductListingPageState extends State<ProductListingPage> {
                     title: Text(product.name),
                     subtitle: Text('\$${product.price.toStringAsFixed(2)}'),
                     onTap: () {
-                      // 🔹 Navigation vers la page de détail
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (_) => ProductDetailPage(product: product),
                         ),
-                      );
+                      ).then((_) => setState(() {}));
                     },
                   ),
                 );

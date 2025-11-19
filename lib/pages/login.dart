@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-// 🔥 Chemins corrigés selon le nom du projet et ton dossier `pages`
 import 'package:e_commerce/pages/register.dart';
 import 'package:e_commerce/pages/product_listing.dart';
 
