@@ -7,9 +7,6 @@ import 'firebase_options.dart'; // ⚡ <- à ajouter
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // ⚡ charger depuis les assets
-  await dotenv.load(fileName: "assets/.env");
-
   // ⚡ Initialisation de Firebase avec la configuration par plateforme
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
