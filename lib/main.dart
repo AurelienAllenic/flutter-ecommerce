@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'pages/login.dart';
+import 'firebase_options.dart'; // ⚡ <- à ajouter
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+
+  // ⚡ charger depuis les assets
+  await dotenv.load(fileName: "assets/.env");
+
+  // ⚡ Initialisation de Firebase avec la configuration par plateforme
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   runApp(const MyApp());
 }
 

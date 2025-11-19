@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "name": "Chaussures de sport",
+    "name": "Chaussures",
     "price": 59.99,
     "image": "https://res.cloudinary.com/dwpbyyhoq/image/upload/f_webp,q_auto/shoe_hucfpe.webp"
   },
