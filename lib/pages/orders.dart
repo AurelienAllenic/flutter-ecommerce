@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // Pour formater la date (ajoutez au pubspec.yaml si besoin : intl: ^0.18.0)
-
+import 'package:intl/intl.dart';
 import '../models/order.dart';
 import '../models/cart_item.dart';
-import '../services/order_service.dart'; // Ajustez le chemin si nécessaire
+import '../services/order_service.dart';
 
 class OrdersPage extends StatelessWidget {
   const OrdersPage({super.key});

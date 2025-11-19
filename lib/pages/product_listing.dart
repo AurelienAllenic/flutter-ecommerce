@@ -4,7 +4,8 @@ import 'package:flutter/services.dart' show rootBundle;
 import '../models/product.dart';
 import 'product_detail.dart';
 import '../widgets/cart_icon.dart';
-import '../widgets/access_order_button.dart'; // ← Change ça selon le VRAI nom de ton fichier
+import '../widgets/access_order_button.dart';
+import '../widgets/logout_icon.dart';
 
 class ProductListingPage extends StatefulWidget {
   const ProductListingPage({super.key});
@@ -31,13 +32,12 @@ class _ProductListingPageState extends State<ProductListingPage> {
 
       setState(() {
         products = data.map((jsonItem) {
-          // ON MET stripePriceId = '' POUR TOUT → PLUS BESOIN DE .env
           return Product(
             id: jsonItem['id'] ?? 0,
             name: jsonItem['name'] ?? 'Produit sans nom',
             price: (jsonItem['price'] as num?)?.toDouble() ?? 0.0,
             image: jsonItem['image'] ?? 'https://via.placeholder.com/150',
-            stripePriceId: '', // ← VIDE, ON S'EN FOUT
+            stripePriceId: '',
           );
         }).toList();
       });
@@ -53,10 +53,7 @@ class _ProductListingPageState extends State<ProductListingPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Liste des produits'),
-        actions: const [
-          CartIcon(),
-          OrdersIcon(), // ← Si ça plante encore, regarde l’étape 6
-        ],
+        actions: const [CartIcon(), OrdersIcon(), LogoutIcon()],
       ),
       body: products.isEmpty
           ? const Center(child: CircularProgressIndicator())

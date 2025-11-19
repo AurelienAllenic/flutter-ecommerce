@@ -3,6 +3,8 @@ import '../models/product.dart';
 import '../models/cart.dart';
 import '../models/cart_item.dart';
 import '../widgets/cart_icon.dart';
+import '../widgets/access_order_button.dart';
+import '../widgets/logout_icon.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final Product product;
@@ -34,7 +36,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.product.name),
-        actions: const [CartIcon()],
+        actions: const [CartIcon(), OrdersIcon(), LogoutIcon()],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -68,7 +70,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 24),
-            // Sélecteur de quantité
+
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -98,7 +100,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 ),
               ],
             ),
+
             const SizedBox(height: 16),
+
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(

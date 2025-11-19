@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../pages/orders.dart'; // Ajustez le chemin vers OrdersPage
+import '../pages/orders.dart';
 
 class OrdersIcon extends StatelessWidget {
   const OrdersIcon({super.key});
@@ -7,9 +7,7 @@ class OrdersIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: const Icon(
-        Icons.history,
-      ), // Icône pour "historique/commandes", changez si besoin (e.g., Icons.list)
+      icon: const Icon(Icons.history),
       tooltip: 'Voir mes commandes précédentes',
       onPressed: () {
         Navigator.push(

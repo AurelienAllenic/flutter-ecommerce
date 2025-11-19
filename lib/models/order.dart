@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart'; // Optional, for better debugging
-import 'cart_item.dart'; // Assuming CartItem is in models/cart_item.dart or adjust path
+import 'package:flutter/foundation.dart';
+import 'cart_item.dart';
 
 class Order {
   final List<CartItem> items;

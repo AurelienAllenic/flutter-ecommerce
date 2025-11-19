@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../models/cart.dart';
 import '../models/cart_item.dart';
-import '../models/order.dart'; // Add this import
-import '../services/order_service.dart'; // Add this import (adjust path if OrderService is elsewhere)
+import '../models/order.dart';
+import '../services/order_service.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -53,21 +53,16 @@ class _CartPageState extends State<CartPage> {
   Future<void> _checkout() async {
     if (cart.items.isEmpty) return;
 
-    await Future.delayed(const Duration(seconds: 1)); // fake processing
+    await Future.delayed(const Duration(seconds: 1));
 
-    // Créer une commande mockée à partir du panier
     final order = Order(
-      items: List.from(
-        cart.items,
-      ), // Copie des items pour éviter mutations futures
+      items: List.from(cart.items),
       total: cart.totalPrice,
       date: DateTime.now(),
     );
 
-    // Ajouter à OrderService (simule enregistrement)
     OrderService.instance.addOrder(order);
 
-    // On simule un paiement réussi
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
@@ -76,7 +71,7 @@ class _CartPageState extends State<CartPage> {
         actions: [
           TextButton(
             onPressed: () {
-              cart.clear(); // vider le panier
+              cart.clear();
               Navigator.of(context).pop();
               setState(() {});
             },
