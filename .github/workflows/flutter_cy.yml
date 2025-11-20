@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=https://json.schemastore.org/pubspec.json
+
 name: Flutter CI
 
 on:
@@ -17,7 +19,7 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.22.7" # stable avec Dart >=3.10, connue disponible
+          flutter-version: "3.22.7"
 
       - name: Verify Flutter version
         run: flutter --version
@@ -33,3 +35,51 @@ jobs:
 
       - name: Build Web (release)
         run: flutter build web --release
+et vocii mon fihcehir pubsec name: e_commerce
+description: "A Flutter project with Firebase authentication, product listing, and Stripe payments."
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.10.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # 🔹 Firebase
+  firebase_core: ^3.15.2
+  firebase_auth: ^5.7.0
+  cloud_functions: ^5.6.2
+
+  # 🔹 Stripe
+  flutter_stripe: ^12.1.1
+
+  # 🔹 HTTP pour appels API
+  http: ^1.1.0
+
+  # 🔹 Variables d'environnement
+  flutter_dotenv: ^6.0.0
+
+  # 🔹 Pour ouvrir des liens (Stripe Checkout)
+  url_launcher: ^6.1.10
+
+  # 🔹 Pour formater les dates
+  intl: ^0.20.2
+
+  # 🔹 Adaptations Web + Android : Web Share & Share Intent
+  share_plus: ^7.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/products.json
