@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+
 import '../models/cart.dart';
 import '../models/cart_item.dart';
 import '../models/order.dart';
 import '../services/order_service.dart';
+import '../pages/product_listing.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -13,6 +15,7 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   final Cart cart = Cart.instance;
+  bool isProcessing = false;
 
   Future<void> _removeItem(CartItem item) async {
     final confirm = await showDialog<bool>(
@@ -51,35 +54,63 @@ class _CartPageState extends State<CartPage> {
 
   // 🔥 PAIEMENT MOCKÉ : aucun Stripe, aucune API
   Future<void> _checkout() async {
-    if (cart.items.isEmpty) return;
+    if (cart.items.isEmpty || isProcessing) return;
 
-    await Future.delayed(const Duration(seconds: 1));
+    setState(() {
+      isProcessing = true;
+    });
 
-    final order = Order(
-      items: List.from(cart.items),
-      total: cart.totalPrice,
-      date: DateTime.now(),
-    );
+    try {
+      // Simule un délai de paiement / validation
+      await Future.delayed(const Duration(seconds: 1));
 
-    OrderService.instance.addOrder(order);
+      final order = Order(
+        items: List.from(cart.items),
+        total: cart.totalPrice,
+        date: DateTime.now(),
+      );
 
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: const Text("Paiement réussi 🎉"),
-        content: const Text("Votre commande a bien été enregistrée."),
-        actions: [
-          TextButton(
-            onPressed: () {
-              cart.clear();
-              Navigator.of(context).pop();
-              setState(() {});
-            },
-            child: const Text("OK"),
-          ),
-        ],
-      ),
-    );
+      OrderService.instance.addOrder(order);
+
+      // Affiche le dialogue de succès et attend la validation utilisateur
+      await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (ctx) => AlertDialog(
+          title: const Text("Paiement réussi 🎉"),
+          content: const Text("Votre commande a bien été enregistrée."),
+          actions: [
+            TextButton(
+              onPressed: () {
+                // On ferme la dialog (pop)
+                Navigator.of(ctx).pop();
+              },
+              child: const Text("OK"),
+            ),
+          ],
+        ),
+      );
+
+      // Après que l'utilisateur ait cliqué OK :
+      cart.clear();
+
+      // Redirige vers la page de listing des produits et supprime l'historique
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => const ProductListingPage()),
+        (route) => false,
+      );
+    } catch (e) {
+      // En cas d'erreur (même si ici c'est mock), affiche un message
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Erreur lors du paiement : $e')));
+    } finally {
+      if (mounted) {
+        setState(() {
+          isProcessing = false;
+        });
+      }
+    }
   }
 
   @override
@@ -103,6 +134,13 @@ class _CartPageState extends State<CartPage> {
                             width: 50,
                             height: 50,
                             fit: BoxFit.cover,
+                            errorBuilder: (context, error, stack) => Container(
+                              width: 50,
+                              height: 50,
+                              color: Colors.grey[200],
+                              alignment: Alignment.center,
+                              child: const Icon(Icons.broken_image, size: 24),
+                            ),
                           ),
                           title: Text(item.product.name),
                           subtitle: Row(
@@ -146,8 +184,16 @@ class _CartPageState extends State<CartPage> {
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: _checkout,
-                        child: const Text('Commander'),
+                        onPressed: isProcessing ? null : _checkout,
+                        child: isProcessing
+                            ? const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : const Text('Commander'),
                       ),
                     ],
                   ),

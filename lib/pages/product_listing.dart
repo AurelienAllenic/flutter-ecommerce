@@ -72,8 +72,6 @@ class _ProductListingPageState extends State<ProductListingPage> {
     });
   }
 
-  // ---- Adaptations plateforme : Web + Android ---- //
-
   void shareAllProducts() {
     final text = allProducts.map((p) => p.name).join(", ");
     Share.share("Découvrez nos produits : $text");
@@ -85,7 +83,6 @@ class _ProductListingPageState extends State<ProductListingPage> {
       appBar: AppBar(
         title: const Text('Liste des produits'),
         actions: [
-          // ---- Adaptation WEB : Web Share ---- //
           if (kIsWeb)
             IconButton(
               icon: const Icon(Icons.share),
@@ -93,7 +90,6 @@ class _ProductListingPageState extends State<ProductListingPage> {
               tooltip: "Partager (Web Share)",
             ),
 
-          // ---- Adaptation ANDROID : Share intent ---- //
           if (!kIsWeb && Platform.isAndroid)
             IconButton(
               icon: const Icon(Icons.share),
