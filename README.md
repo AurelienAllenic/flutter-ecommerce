@@ -90,6 +90,16 @@ assets/
 - url_launcher
 - share_plus
 
+## Pipeline CI
+
+Une pipeline Ci a été implémentée sur github Actions et suit ces étapes :
+
+- Checkout repository
+- Setup Flutter
+- Verify Flutter version
+- Install dependencies
+- Build Web (release)
+
 ## Notes
 
 Le paiement est simulé, aucune transaction réelle n’est effectuée.
