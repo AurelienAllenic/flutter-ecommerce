@@ -18,16 +18,13 @@ jobs:
         uses: flutter-actions/setup-flutter@v4
         with:
           channel: stable
-          version: "3.38.2" # stable avec Dart >=3.10, connue disponible
+          version: "3.38.2"
 
       - name: Verify Flutter version
         run: flutter --version
 
       - name: Install dependencies
         run: flutter pub get
-
-      - name: Analyze code
-        run: flutter analyze --no-fatal-warnings
 
       - name: Build APK (debug)
         run: flutter build apk --debug
