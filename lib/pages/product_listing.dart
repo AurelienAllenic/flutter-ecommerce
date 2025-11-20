@@ -1,6 +1,11 @@
 import 'dart:convert';
+import 'dart:io' show Platform;
+
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:share_plus/share_plus.dart';
+
 import '../models/product.dart';
 import 'product_detail.dart';
 import '../widgets/cart_icon.dart';
@@ -30,6 +35,7 @@ class _ProductListingPageState extends State<ProductListingPage> {
       final String response = await rootBundle.loadString(
         'assets/products.json',
       );
+
       final List<dynamic> data = json.decode(response);
 
       final loadedProducts = data.map((jsonItem) {
@@ -66,13 +72,41 @@ class _ProductListingPageState extends State<ProductListingPage> {
     });
   }
 
+  // ---- Adaptations plateforme : Web + Android ---- //
+
+  void shareAllProducts() {
+    final text = allProducts.map((p) => p.name).join(", ");
+    Share.share("Découvrez nos produits : $text");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Liste des produits'),
-        actions: const [CartIcon(), OrdersIcon(), LogoutIcon()],
+        actions: [
+          // ---- Adaptation WEB : Web Share ---- //
+          if (kIsWeb)
+            IconButton(
+              icon: const Icon(Icons.share),
+              onPressed: shareAllProducts,
+              tooltip: "Partager (Web Share)",
+            ),
+
+          // ---- Adaptation ANDROID : Share intent ---- //
+          if (!kIsWeb && Platform.isAndroid)
+            IconButton(
+              icon: const Icon(Icons.share),
+              onPressed: shareAllProducts,
+              tooltip: "Partager sur Android",
+            ),
+
+          const CartIcon(),
+          const OrdersIcon(),
+          const LogoutIcon(),
+        ],
       ),
+
       body: Column(
         children: [
           Padding(

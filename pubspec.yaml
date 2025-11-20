@@ -27,11 +27,14 @@ dependencies:
   # 🔹 Variables d'environnement
   flutter_dotenv: ^6.0.0
 
-  # 🔹 Pour ouvrir les liens (Stripe Checkout)
+  # 🔹 Pour ouvrir des liens (Stripe Checkout)
   url_launcher: ^6.1.10
 
   # 🔹 Pour formater les dates
   intl: ^0.20.2
+
+  # 🔹 Adaptations Web + Android : Web Share & Share Intent
+  share_plus: ^7.2.0
 
 dev_dependencies:
   flutter_test:
