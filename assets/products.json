@@ -3,18 +3,21 @@
     "id": 1,
     "name": "Chaussures",
     "price": 59.99,
-    "image": "https://res.cloudinary.com/dwpbyyhoq/image/upload/f_webp,q_auto/shoe_hucfpe.webp"
+    "image": "https://res.cloudinary.com/dwpbyyhoq/image/upload/f_webp,q_auto/shoe_hucfpe.webp",
+    "description": "Des chaussures confortables et élégantes pour toutes les occasions."
   },
   {
     "id": 2,
     "name": "T-shirt",
     "price": 19.99,
-    "image": "https://res.cloudinary.com/dwpbyyhoq/image/upload/f_webp,q_auto/t-shirt_krqjbi.webp"
+    "image": "https://res.cloudinary.com/dwpbyyhoq/image/upload/f_webp,q_auto/t-shirt_krqjbi.webp",
+    "description": "Un t-shirt en coton doux, parfait pour un usage quotidien."
   },
   {
     "id": 3,
     "name": "Sac à dos",
     "price": 39.99,
-    "image": "https://res.cloudinary.com/dwpbyyhoq/image/upload/f_webp,q_auto/bag_g8uc6n.webp"
+    "image": "https://res.cloudinary.com/dwpbyyhoq/image/upload/f_webp,q_auto/bag_g8uc6n.webp",
+    "description": "Un sac à dos spacieux et durable, idéal pour les voyages et les randonnées."
   }
 ]

@@ -35,7 +35,6 @@ class _ProductListingPageState extends State<ProductListingPage> {
       final String response = await rootBundle.loadString(
         'assets/products.json',
       );
-
       final List<dynamic> data = json.decode(response);
 
       final loadedProducts = data.map((jsonItem) {
@@ -44,7 +43,9 @@ class _ProductListingPageState extends State<ProductListingPage> {
           name: jsonItem['name'] ?? 'Produit sans nom',
           price: (jsonItem['price'] as num?)?.toDouble() ?? 0.0,
           image: jsonItem['image'] ?? 'https://via.placeholder.com/150',
-          stripePriceId: '',
+          stripePriceId: jsonItem['stripePriceId'] ?? '',
+          description:
+              jsonItem['description'] ?? 'Aucune description disponible.',
         );
       }).toList();
 
@@ -79,6 +80,8 @@ class _ProductListingPageState extends State<ProductListingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final maxWidth = 600.0;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Liste des produits'),
@@ -89,68 +92,75 @@ class _ProductListingPageState extends State<ProductListingPage> {
               onPressed: shareAllProducts,
               tooltip: "Partager (Web Share)",
             ),
-
           if (!kIsWeb && Platform.isAndroid)
             IconButton(
               icon: const Icon(Icons.share),
               onPressed: shareAllProducts,
               tooltip: "Partager sur Android",
             ),
-
           const CartIcon(),
           const OrdersIcon(),
           const LogoutIcon(),
         ],
       ),
-
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              decoration: const InputDecoration(
-                hintText: 'Rechercher un produit...',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
-              ),
-              onChanged: updateSearch,
-            ),
-          ),
-          Expanded(
-            child: displayedProducts.isEmpty
-                ? const Center(child: Text("Aucun produit trouvé"))
-                : ListView.builder(
-                    itemCount: displayedProducts.length,
-                    itemBuilder: (context, index) {
-                      final product = displayedProducts[index];
-                      return Card(
-                        margin: const EdgeInsets.all(8),
-                        child: ListTile(
-                          leading: Image.network(
-                            product.image,
-                            width: 50,
-                            height: 50,
-                            fit: BoxFit.cover,
-                          ),
-                          title: Text(product.name),
-                          subtitle: Text(
-                            '\$${product.price.toStringAsFixed(2)}',
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) =>
-                                    ProductDetailPage(product: product),
-                              ),
-                            ).then((_) => setState(() {}));
-                          },
-                        ),
-                      );
-                    },
+      body: Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: maxWidth),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  decoration: const InputDecoration(
+                    hintText: 'Rechercher un produit...',
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(),
                   ),
+                  onChanged: updateSearch,
+                ),
+              ),
+              Expanded(
+                child: displayedProducts.isEmpty
+                    ? const Center(child: Text("Aucun produit trouvé"))
+                    : ListView.builder(
+                        itemCount: displayedProducts.length,
+                        itemBuilder: (context, index) {
+                          final product = displayedProducts[index];
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            child: Card(
+                              child: ListTile(
+                                leading: Image.network(
+                                  product.image,
+                                  width: 50,
+                                  height: 50,
+                                  fit: BoxFit.cover,
+                                ),
+                                title: Text(product.name),
+                                subtitle: Text(
+                                  '\$${product.price.toStringAsFixed(2)}',
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) =>
+                                          ProductDetailPage(product: product),
+                                    ),
+                                  ).then((_) => setState(() {}));
+                                },
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

@@ -103,89 +103,100 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       );
     }
 
-    // Cart / Orders / Logout (toujours présents)
     actions.addAll(const [CartIcon(), OrdersIcon(), LogoutIcon()]);
 
     return Row(mainAxisSize: MainAxisSize.min, children: actions);
   }
 
   Widget buildContent() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Image.network(
-            widget.product.image,
-            height: 250,
-            width: double.infinity,
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stack) => Container(
-              height: 250,
-              color: Colors.grey[200],
-              alignment: Alignment.center,
-              child: const Icon(Icons.broken_image, size: 48),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            widget.product.name,
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            "\$${widget.product.price.toStringAsFixed(2)}",
-            style: const TextStyle(fontSize: 20, color: Colors.green),
-          ),
-          const SizedBox(height: 16),
-          const Text(
-            "Description du produit :",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            "Pour l'instant, aucune description détaillée disponible.",
-            style: TextStyle(fontSize: 16),
-          ),
-          const SizedBox(height: 24),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+    final maxWidth = 600.0;
+
+    return Center(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: maxWidth),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Container(
+                height: 250,
+                width: double.infinity,
+                color: Colors.grey[200],
+                child: Image.network(
+                  widget.product.image,
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stack) =>
+                      const Center(child: Icon(Icons.broken_image, size: 48)),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                widget.product.name,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                "\$${widget.product.price.toStringAsFixed(2)}",
+                style: const TextStyle(fontSize: 20, color: Colors.green),
+              ),
+              const SizedBox(height: 16),
               const Text(
-                "Quantité :",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                "Description du produit :",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(width: 16),
-              IconButton(
-                icon: const Icon(Icons.remove),
-                onPressed: () {
-                  if (quantity > 1) {
-                    setState(() {
-                      quantity--;
-                    });
-                  }
-                },
+              const SizedBox(height: 8),
+              Text(
+                widget.product.description,
+                style: const TextStyle(fontSize: 16),
               ),
-              Text(quantity.toString(), style: const TextStyle(fontSize: 16)),
-              IconButton(
-                icon: const Icon(Icons.add),
-                onPressed: () {
-                  setState(() {
-                    quantity++;
-                  });
-                },
+              const SizedBox(height: 24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Quantité :",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(width: 16),
+                  IconButton(
+                    icon: const Icon(Icons.remove),
+                    onPressed: () {
+                      if (quantity > 1) {
+                        setState(() {
+                          quantity--;
+                        });
+                      }
+                    },
+                  ),
+                  Text(
+                    quantity.toString(),
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.add),
+                    onPressed: () {
+                      setState(() {
+                        quantity++;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: addToCart,
+                  child: const Text("Ajouter au panier"),
+                ),
               ),
             ],
           ),
-          const SizedBox(height: 16),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: addToCart,
-              child: const Text("Ajouter au panier"),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

@@ -4,6 +4,7 @@ class Product {
   final double price;
   final String image;
   final String stripePriceId;
+  final String description;
 
   Product({
     required this.id,
@@ -11,6 +12,7 @@ class Product {
     required this.price,
     required this.image,
     required this.stripePriceId,
+    required this.description,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
@@ -20,6 +22,8 @@ class Product {
       price: (json['price'] as num?)?.toDouble() ?? 0.0,
       image: json['image'] ?? 'https://via.placeholder.com/150',
       stripePriceId: json['stripePriceId'] ?? '',
+      description:
+          json['description'] ?? 'Aucune description disponible.', // ⚠️
     );
   }
 }
