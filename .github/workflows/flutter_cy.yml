@@ -27,7 +27,7 @@ jobs:
       - name: Analyze code
         run: flutter analyze
 
-      - name: Build APK (Debug, just to check compilation)
+      - name: Build APK (Debug)
         run: flutter build apk --debug
 
       - name: Build Web (Debug, optional)
