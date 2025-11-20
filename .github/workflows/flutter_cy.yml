@@ -26,8 +26,5 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Build APK (debug)
-        run: flutter build apk --debug
-
       - name: Build Web (release)
         run: flutter build web --release
