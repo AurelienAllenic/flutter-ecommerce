@@ -53,8 +53,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   }
 
   Future<void> shareProduct() async {
+    final baseUrl = 'https://flutter-ecommerce-ochre.vercel.app/product?id=';
+    final productUrl = '$baseUrl${widget.product.id}';
+
     final text =
-        '${widget.product.name} — ${widget.product.price.toStringAsFixed(2)}\nDécouvrez-le !';
+        '${widget.product.name} — \$${widget.product.price.toStringAsFixed(2)}\nDécouvrez-le ici : $productUrl';
+
     try {
       await Share.share(text);
     } catch (e) {

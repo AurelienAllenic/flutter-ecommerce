@@ -74,8 +74,16 @@ class _ProductListingPageState extends State<ProductListingPage> {
   }
 
   void shareAllProducts() {
-    final text = allProducts.map((p) => p.name).join(", ");
-    Share.share("Découvrez nos produits : $text");
+    final baseUrl = 'https://flutter-ecommerce-ochre.vercel.app/product?id=';
+
+    final text = allProducts
+        .map((p) {
+          final url = '$baseUrl${p.id}';
+          return '${p.name} — $url';
+        })
+        .join('\n');
+
+    Share.share("Découvrez nos produits :\n$text");
   }
 
   @override
